@@ -10,7 +10,11 @@ module Dotfiles::FileImporter
   end
 
   def self.import(path : String)
-    dotfile_path = self.dotfile_path(filename(path))
+    dotfile_path = self.dotfile_path(path)
+    Dir.mkdir_p(dotfile_path.dirname)
+
+    dotfile_path = dotfile_path.to_s
+
     FileUtils.mv(path, dotfile_path)
     FileUtils.ln_s(dotfile_path, path)
   rescue error : Exception
@@ -18,7 +22,7 @@ module Dotfiles::FileImporter
   end
 
   def self.dotfile_path(filename : String)
-    Utils.repository_path.join(filename).to_s
+    Utils.repository_path.join(filename)
   end
 
   def self.filename(path : String)
