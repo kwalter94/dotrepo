@@ -21,11 +21,18 @@ module Dotfiles::FileImporter
     raise Exceptions::ImportFailed.new("Failed to import file: #{path}", error)
   end
 
-  def self.dotfile_path(filename : String)
-    Utils.repository_path.join(filename)
+  def self.dotfile_path(path : String)
+    stripped_path = self.strip_home_from_path(path)
+
+    if stripped_path == path
+      raise Exceptions::ImportFailed.new("#{path} is outside of #{Path.home}")
+    end
+
+    Utils.repository_path.join(path)
   end
 
-  def self.filename(path : String)
-    Path[path].basename
+  def self.strip_home_from_path(path : String)
+    expanded_path = Path[path].expand.to_s
+    expanded_path.gsub(/^#{Path.home}/, "")
   end
 end

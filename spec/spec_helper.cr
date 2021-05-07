@@ -1,5 +1,4 @@
 require "spec"
-require "../src/dotfiles"
 require "../src/utils"
 
 require "dir"
@@ -48,13 +47,13 @@ def expand_relative_dir(relative_dir)
   "dotfiles/#{relative_dir}/"
 end
 
-Spec.before_suite do
+Spec.before_each do
   # Ensure that relative paths resolve to the correct directory
   Dir.mkdir_p(Path.home)
   Dir.cd(Path.home)
 end
 
-Spec.after_suite do
+Spec.after_each do
   Dir.cd(Dir.tempdir)
   Dir.delete_tree(Path.home)
 end

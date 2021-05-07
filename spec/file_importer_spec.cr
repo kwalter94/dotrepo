@@ -40,5 +40,17 @@ describe Dotfiles::FileImporter do
       Dotfiles::FileImporter.import(filename)
       Dir.exists?(imported_dir_path).should be_true
     end
+
+    it "does not import files outside of home directory" do
+      tempfile = File.tempfile do |file|
+        file.puts("Test config...")
+      end
+
+      expect_raises(Dotfiles::Exceptions::ImportFailed) do
+        Dotfiles::FileImporter.import(tempfile.path)
+      end
+
+      tempfile.delete
+    end
   end
 end
