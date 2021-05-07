@@ -28,7 +28,7 @@ module Dotfiles::FileImporter
       raise Exceptions::ImportFailed.new("#{path} is outside of #{Path.home}")
     end
 
-    Utils.repository_path.join(path)
+    Utils.repository_path.join(stripped_path)
   end
 
   def self.strip_home_from_path(path : String)
