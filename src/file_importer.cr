@@ -13,8 +13,6 @@ module Dotfiles::FileImporter
     dotfile_path = self.dotfile_path(path)
     Dir.mkdir_p(dotfile_path.dirname)
 
-    dotfile_path = dotfile_path.to_s
-
     FileUtils.mv(path, dotfile_path)
     FileUtils.ln_s(dotfile_path, path)
   rescue error : Exception

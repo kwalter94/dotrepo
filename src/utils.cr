@@ -4,6 +4,6 @@ require "path"
 
 module Dotfiles::Utils
   def self.repository_path
-    Path["#{Path.home}/.dotfiles"]
+    Path.home.join(".dotfiles")
   end
 end

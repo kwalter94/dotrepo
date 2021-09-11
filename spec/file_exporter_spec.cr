@@ -30,8 +30,6 @@ describe Dotfiles::FileExporter do
       dotfile_dir_path = repository_path.join("some", "relative", "path")
       Dir.mkdir_p(dotfile_dir_path)
 
-      pp(path: dotfile_dir_path.to_s, exists: Dir.exists?(dotfile_dir_path))
-
       dotfile_path = File.tempfile(dir: dotfile_dir_path.to_s, &.print("Hello")).path
       export_filename = Path[dotfile_path].basename
       exported_path = Path.home.join("some", "relative", "path", export_filename)
