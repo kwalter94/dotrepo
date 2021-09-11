@@ -2,7 +2,7 @@ require "dir"
 require "file"
 require "path"
 
-module Dotfiles::Utils
+module Dotrepo::Utils
   def self.repository_path
     Path.home.join(".dotfiles")
   end

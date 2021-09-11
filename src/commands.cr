@@ -4,7 +4,7 @@ require "./file_importer"
 
 require "option_parser"
 
-module Dotfiles::Commands
+module Dotrepo::Commands
   extend self
 
   alias CommandArgs = Array(String)

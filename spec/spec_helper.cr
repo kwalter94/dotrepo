@@ -5,7 +5,7 @@ require "dir"
 require "file"
 
 struct Path
-  # Used by Dotfiles::Utils.repository_path
+  # Used by Dotrepo::Utils.repository_path
   def self.home
     Path[Dir.tempdir].join("dotfiles")
   end
@@ -27,7 +27,7 @@ class Dir
 end
 
 def repository_path
-  Dotfiles::Utils.repository_path
+  Dotrepo::Utils.repository_path
 end
 
 def create_testfile(relative_dir = nil)

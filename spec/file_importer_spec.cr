@@ -3,13 +3,13 @@ require "../src/file_importer"
 
 require "file"
 
-describe Dotfiles::FileImporter do
+describe Dotrepo::FileImporter do
   describe :import do
     it "moves file to .dotfiles folder" do
       filename = create_testfile(&.print("foo: 1"))
       imported_file_path = repository_path.join(filename)
 
-      Dotfiles::FileImporter.import(filename)
+      Dotrepo::FileImporter.import(filename)
 
       files_match = File.read(imported_file_path) == "foo: 1"
       files_match.should be_true
@@ -19,7 +19,7 @@ describe Dotfiles::FileImporter do
       filename = create_testfile(&.print("foo: 1"))
       imported_file_path = repository_path.join(filename)
 
-      Dotfiles::FileImporter.import(filename)
+      Dotrepo::FileImporter.import(filename)
 
       File.symlink?(filename).should be_true
       File.readlink(filename).should eq(imported_file_path.to_s)
@@ -37,7 +37,7 @@ describe Dotfiles::FileImporter do
         Dir.delete(imported_dir_path)
       end
 
-      Dotfiles::FileImporter.import(filename)
+      Dotrepo::FileImporter.import(filename)
       Dir.exists?(imported_dir_path).should be_true
     end
 
@@ -46,8 +46,8 @@ describe Dotfiles::FileImporter do
         file.puts("Test config...")
       end
 
-      expect_raises(Dotfiles::Exceptions::ImportFailed) do
-        Dotfiles::FileImporter.import(tempfile.path)
+      expect_raises(Dotrepo::Exceptions::ImportFailed) do
+        Dotrepo::FileImporter.import(tempfile.path)
       end
 
       tempfile.delete
@@ -55,10 +55,10 @@ describe Dotfiles::FileImporter do
 
     it "throws an error when dotfile already exists in repository" do
       tempfile = File.tempfile(dir: Path.home.to_s, &.puts("Hello"))
-      Dotfiles::FileImporter.import(tempfile.path)
+      Dotrepo::FileImporter.import(tempfile.path)
 
-      expect_raises(Dotfiles::Exceptions::ImportFailed) do
-        Dotfiles::FileImporter.import(tempfile.path)
+      expect_raises(Dotrepo::Exceptions::ImportFailed) do
+        Dotrepo::FileImporter.import(tempfile.path)
       end
     end
   end

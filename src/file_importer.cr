@@ -5,7 +5,7 @@ require "file_utils"
 require "io"
 require "path"
 
-module Dotfiles::FileImporter
+module Dotrepo::FileImporter
   def self.import(path : String)
     import(Path[path])
   end

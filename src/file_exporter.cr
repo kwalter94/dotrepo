@@ -4,11 +4,11 @@ require "./utils"
 require "file_utils"
 require "path"
 
-module Dotfiles::FileExporter
+module Dotrepo::FileExporter
   ##
   # Imports dotfile from the dotfiles repository.
   #
-  # For example `Dotfiles::FileExporter.export_file(".config/fish/config.fish"])`
+  # For example `Dotrepo::FileExporter.export_file(".config/fish/config.fish"])`
   # creates a symlink at ~/.config/fish/config.fish to the corresponding file in
   # the dotfiles repository.
   def self.export(relative_dotfile_path : String)
@@ -18,7 +18,7 @@ module Dotfiles::FileExporter
   ##
   # Imports dotfile from the dotfiles repository.
   #
-  # For example `Dotfiles::FileExporter.export_file(Path[".config", "fish", "config.fish"])`
+  # For example `Dotrepo::FileExporter.export_file(Path[".config", "fish", "config.fish"])`
   # creates a symlink at ~/.config/fish/config.fish to the corresponding file in
   # the dotfiles repository.
   def self.export(relative_dotfile_path : Path)

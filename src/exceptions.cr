@@ -1,4 +1,4 @@
-module Dotfiles::Exceptions
+module Dotrepo::Exceptions
   class Exception < ::Exception; end
 
   class ImportFailed < Exception; end

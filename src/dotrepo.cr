@@ -2,8 +2,8 @@ require "./commands"
 
 require "option_parser"
 
-# TODO: Write documentation for `Dotfiles`
-module Dotfiles
+# TODO: Write documentation for `Dotrepo`
+module Dotrepo
   VERSION = "0.1.0"
 
   command : Commands::Command | Nil = nil
@@ -11,17 +11,17 @@ module Dotfiles
   flags = Commands::CommandFlags.new
 
   option_parser = OptionParser.parse do |parser|
-    parser.banner = "USAGE: dotfiles command [OPTION] [FILE]..."
+    parser.banner = "USAGE: dotrepo command [OPTION] [FILE]..."
 
     parser.on("import", "Import file into repository") do
-      parser.banner = "USAGE: dotfiles import [OPTION] FILE [FILE...]"
+      parser.banner = "USAGE: dotrepo import [OPTION] FILE [FILE...]"
       parser.unknown_args { |paths| args.replace(paths) }
 
       command = ->Commands.import(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
     end
 
     parser.on("export", "Export file from repository") do
-      parser.banner = "USAGE: dotfiles export [OPTION] FILE [FILE...]"
+      parser.banner = "USAGE: dotrepo export [OPTION] FILE [FILE...]"
       parser.unknown_args { |paths| args.replace(paths) }
 
       command = ->Commands.export(OptionParser, Commands::CommandFlags, Commands::CommandArgs)

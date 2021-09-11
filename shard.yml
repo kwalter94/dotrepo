@@ -1,4 +1,4 @@
-name: dotfiles
+name: dotrepo
 version: 0.1.0
 
 authors:
@@ -10,8 +10,8 @@ development_dependencies:
     version: ~> 0.13.0 
 
 targets:
-  dotfiles:
-    main: src/dotfiles.cr
+  dotrepo:
+    main: src/dotrepo.cr
 
 crystal: 0.36.1
 

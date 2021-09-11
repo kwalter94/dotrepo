@@ -1,4 +1,4 @@
-# dotfiles
+# dotrepo
 
 TODO: Write a description here
 
