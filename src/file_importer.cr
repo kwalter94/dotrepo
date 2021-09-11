@@ -1,8 +1,9 @@
 require "./exceptions"
 require "./utils"
 
-require "path"
 require "file_utils"
+require "io"
+require "path"
 
 module Dotfiles::FileImporter
   def self.import(path : String)
@@ -14,14 +15,16 @@ module Dotfiles::FileImporter
     if File.info?(dotfile_path, follow_symlinks: false)
       # File.exists? and File.file? follow symlinks and can cause program
       # to crash when passed self referencing symlinks.
-      raise Exceptions::ImportFailed.new("File already exists in repository: #{path}")
+      raise Exceptions::ImportFailed.new("File already exists in repository: #{dotfile_path}")
     end
 
-    Dir.mkdir_p(dotfile_path.dirname)
-    FileUtils.mv(path, dotfile_path)
-    FileUtils.ln_s(dotfile_path, path)
-  rescue error : Exception
-    raise Exceptions::ImportFailed.new("Failed to import file: #{path}", error)
+    begin
+      Dir.mkdir_p(dotfile_path.dirname)
+      FileUtils.mv(path, dotfile_path)
+      FileUtils.ln_s(dotfile_path, path)
+    rescue error : IO::Error
+      raise Exceptions::ImportFailed.new("Failed to import file: #{path}", error)
+    end
   end
 
   def self.dotfile_path(path : Path)
