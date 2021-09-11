@@ -1,39 +1,30 @@
-require "option_parser"
+require "./commands"
 
-require "./file_importer"
+require "option_parser"
 
 # TODO: Write documentation for `Dotfiles`
 module Dotfiles
   VERSION = "0.1.0"
 
-  alias CommandArgs = Array(String)
-  alias CommandFlags = Hash(String, String | Bool)
-  alias Command = CommandFlags, CommandArgs -> Nil
+  command : Commands::Command | Nil = nil
+  args = Commands::CommandArgs.new
+  flags = Commands::CommandFlags.new
 
-  command : Command | Nil = nil
-  flags : CommandFlags = CommandFlags.new
-  args : CommandArgs = [] of String
-
-  parser = OptionParser.parse do |parser|
+  option_parser = OptionParser.parse do |parser|
     parser.banner = "USAGE: dotfiles command [OPTION] [FILE]..."
 
-    parser.on("import", "Import file") do
-      parser.banner = "USAGE: dotfiles import [OPTION] [FILE]..."
-      parser.unknown_args { |paths| args = paths }
+    parser.on("import", "Import file into repository") do
+      parser.banner = "USAGE: dotfiles import [OPTION] FILE [FILE...]"
+      parser.unknown_args { |paths| args.replace(paths) }
 
-      command = ->(_flags : CommandFlags, args : CommandArgs) do
-        if args.empty?
-          STDERR.puts("ERROR: You need to specify at least one file to import")
-          STDERR.puts(parser)
-          exit(1)
-        end
+      command = ->Commands.import(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
+    end
 
-        args.each do |path|
-          FileImporter.import(path)
-        end
+    parser.on("export", "Export file from repository") do
+      parser.banner = "USAGE: dotfiles export [OPTION] FILE [FILE...]"
+      parser.unknown_args { |paths| args.replace(paths) }
 
-        exit(0)
-      end
+      command = ->Commands.export(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
     end
 
     parser.on("-h", "--help", "Show this help") do
@@ -48,13 +39,13 @@ module Dotfiles
     end
   end
 
+  option_parser.parse
+
   unless command
     STDERR.puts("ERROR: You need to specify a command")
-    STDERR.puts(parser)
+    STDERR.puts(option_parser)
     exit(1)
   end
 
-  command.try do |command|
-    command.call(flags, args)
-  end
+  STDOUT.puts(command.try(&.call(option_parser, flags, args)))
 end
