@@ -21,7 +21,7 @@ describe Dotfiles::FileExporter do
       export_filename = Path[dotfile_path].basename
       exported_path = Path.home.join(export_filename)
 
-      Dotfiles::FileExporter.export_file(export_filename)
+      Dotfiles::FileExporter.export(export_filename)
       File.symlink?(exported_path).should be_true
       File.readlink(exported_path).should eq(repository_path.join(export_filename).to_s)
     end
@@ -34,7 +34,7 @@ describe Dotfiles::FileExporter do
       export_filename = Path[dotfile_path].basename
       exported_path = Path.home.join("some", "relative", "path", export_filename)
 
-      Dotfiles::FileExporter.export_file("some/relative/path/#{export_filename}")
+      Dotfiles::FileExporter.export("some/relative/path/#{export_filename}")
       Dir.exists?(exported_path.dirname).should eq(true)
       Path[File.readlink(exported_path)].should eq(Path[dotfile_path])
     end
