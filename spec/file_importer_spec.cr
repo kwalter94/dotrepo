@@ -52,5 +52,14 @@ describe Dotfiles::FileImporter do
 
       tempfile.delete
     end
+
+    it "throws an error when dotfile already exists in repository" do
+      tempfile = File.tempfile(dir: Path.home.to_s, &.puts("Hello"))
+      Dotfiles::FileImporter.import(tempfile.path)
+
+      expect_raises(Dotfiles::Exceptions::ImportFailed) do
+        Dotfiles::FileImporter.import(tempfile.path)
+      end
+    end
   end
 end

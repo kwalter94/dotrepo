@@ -11,8 +11,13 @@ module Dotfiles::FileImporter
 
   def self.import(path : Path)
     dotfile_path = self.dotfile_path(path)
-    Dir.mkdir_p(dotfile_path.dirname)
+    if File.info?(dotfile_path, follow_symlinks: false)
+      # File.exists? and File.file? follow symlinks and can cause program
+      # to crash when passed self referencing symlinks.
+      raise Exceptions::ImportFailed.new("File already exists in repository: #{path}")
+    end
 
+    Dir.mkdir_p(dotfile_path.dirname)
     FileUtils.mv(path, dotfile_path)
     FileUtils.ln_s(dotfile_path, path)
   rescue error : Exception

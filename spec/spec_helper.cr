@@ -13,7 +13,7 @@ end
 
 class Dir
   def self.delete_tree(path : Path)
-    if File.directory?(path)
+    if File.info?(path, follow_symlinks: false).try(&.directory?)
       Dir.children(path).each { |child| delete_tree(path.join(child)) }
       Dir.delete(path)
     else
