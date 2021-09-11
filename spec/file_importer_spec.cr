@@ -6,7 +6,7 @@ require "file"
 describe Dotfiles::FileImporter do
   describe :import do
     it "moves file to .dotfiles folder" do
-      filename = create_testfile { |file| file.print("foo: 1") }
+      filename = create_testfile(&.print("foo: 1"))
       imported_file_path = repository_path.join(filename)
 
       Dotfiles::FileImporter.import(filename)
@@ -16,7 +16,7 @@ describe Dotfiles::FileImporter do
     end
 
     it "replaces file with a symlink to new file in .dotfiles folder" do
-      filename = create_testfile { |file| file.print("foo: 1") }
+      filename = create_testfile(&.print("foo: 1"))
       imported_file_path = repository_path.join(filename)
 
       Dotfiles::FileImporter.import(filename)
@@ -26,7 +26,7 @@ describe Dotfiles::FileImporter do
     end
 
     it "maintains relative directory structure in repository folder" do
-      filename = create_testfile(relative_dir: ".config/dotfiles") { |file| file.print("Hello") }
+      filename = create_testfile(relative_dir: ".config/dotfiles", &.print("Hello"))
       # filename comes as a relative path that includes relative_dir above
       imported_dir_path = repository_path.join(".config/dotfiles")
 
