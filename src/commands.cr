@@ -1,6 +1,7 @@
 require "./exceptions"
 require "./file_exporter"
 require "./file_importer"
+require "./repository"
 
 require "option_parser"
 
@@ -38,6 +39,16 @@ module Dotrepo::Commands
     rescue e : Exceptions::Exception
       STDERR.puts("Error: Failed to export file #{path}: #{e}")
       exit(1)
+    end
+  end
+
+  def list(_parser : OptionParser, _flags : CommandFlags, _args : CommandArgs)
+    Repository.list.each do |file|
+      if file.exported?
+        puts "#{file.path}\n"
+      else
+        puts "\033[0;31m#{file.path}\033[0m\n"
+      end
     end
   end
 end

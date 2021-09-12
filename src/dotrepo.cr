@@ -27,6 +27,11 @@ module Dotrepo
       command = ->Commands.export(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
     end
 
+    parser.on("ls", "Lists all files in repository") do
+      parser.banner = "USAGE: dotrepo ls"
+      command = ->Commands.list(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
+    end
+
     parser.on("-h", "--help", "Show this help") do
       puts(parser)
       exit(0)
