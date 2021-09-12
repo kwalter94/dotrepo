@@ -5,12 +5,17 @@ require "file_utils"
 require "io"
 require "path"
 
+##
+# Moves files from user's home directory into the dotfiles repository, leaving
+# symbolic links to the files.
 module Dotrepo::FileImporter
-  def self.import(path : String)
+  extend self
+
+  def import(path : String)
     import(Path[path])
   end
 
-  def self.import(path : Path)
+  def import(path : Path)
     dotfile_path = self.dotfile_path(path)
     if File.info?(dotfile_path, follow_symlinks: false)
       # File.exists? and File.file? follow symlinks and can cause program
@@ -27,7 +32,7 @@ module Dotrepo::FileImporter
     end
   end
 
-  def self.dotfile_path(path : Path)
+  def dotfile_path(path : Path)
     stripped_path = self.strip_home_from_path(path)
 
     if stripped_path == path
@@ -37,7 +42,7 @@ module Dotrepo::FileImporter
     Utils.repository_path.join(stripped_path)
   end
 
-  def self.strip_home_from_path(path : Path)
+  def strip_home_from_path(path : Path)
     expanded_path = path.expand.to_s
     Path[expanded_path.gsub(/^#{Path.home}/, "")]
   end
