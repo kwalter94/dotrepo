@@ -1,5 +1,5 @@
 require "./exceptions"
-require "./utils"
+require "./repository"
 
 require "file_utils"
 require "io"
@@ -39,7 +39,7 @@ module Dotrepo::FileImporter
       raise Exceptions::ImportFailed.new("#{path} is outside of #{Path.home}")
     end
 
-    Utils.repository_path.join(stripped_path)
+    Repository.path.join(stripped_path)
   end
 
   def strip_home_from_path(path : Path)

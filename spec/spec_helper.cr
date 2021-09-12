@@ -1,11 +1,11 @@
 require "spec"
-require "../src/utils"
+require "../src/repository"
 
 require "dir"
 require "file"
 
 struct Path
-  # Used by Dotrepo::Utils.repository_path
+  # Used by Dotrepo::Repository.path
   def self.home
     Path[Dir.tempdir].join("dotfiles")
   end
@@ -27,7 +27,7 @@ class Dir
 end
 
 def repository_path
-  Dotrepo::Utils.repository_path
+  Dotrepo::Repository.path
 end
 
 def create_testfile(relative_dir = nil)

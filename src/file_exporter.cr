@@ -1,5 +1,5 @@
 require "./exceptions"
-require "./utils"
+require "./repository"
 
 require "file_utils"
 require "path"
@@ -39,7 +39,7 @@ module Dotrepo::FileExporter
   end
 
   def expand_dotfile_path(relative_dotfile_path : Path)
-    Utils.repository_path.join(relative_dotfile_path)
+    Repository.path.join(relative_dotfile_path)
   end
 
   def dotfile_export_path(relative_dotfile_path : Path)
