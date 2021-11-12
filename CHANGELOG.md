@@ -21,7 +21,9 @@ tracks all pending removals.
 
 [Unreleased]
 
-## Added
+## [2021-11-12] - v1.0.0
+
+### Added
 
 - import command: imports files into repository
 - export command: exports files from repository to user directory
