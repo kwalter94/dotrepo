@@ -1,3 +1,5 @@
+[![.github/workflows/test.yml](https://github.com/kwalter94/dotrepo/actions/workflows/test.yml/badge.svg)](https://github.com/kwalter94/dotrepo/actions/workflows/test.yml)
+
 # dotrepo
 
 This is a tool for managing a repository of a user's dotfiles. It organises a user's
