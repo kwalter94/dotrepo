@@ -4,7 +4,7 @@ require "option_parser"
 
 # TODO: Write documentation for `Dotrepo`
 module Dotrepo
-  VERSION = "0.1.0"
+  VERSION = "1.0.0"
 
   command : Commands::Command | Nil = nil
   args = Commands::CommandArgs.new
