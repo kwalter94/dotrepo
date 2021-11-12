@@ -45,10 +45,14 @@ module Dotrepo::Commands
   def list(_parser : OptionParser, _flags : CommandFlags, _args : CommandArgs)
     Repository.list.each do |file|
       if file.exported?
-        puts "#{file.path}\n"
+        puts "#{file.path}"
       else
-        puts "\033[0;31m#{file.path}\033[0m\n"
+        puts "\033[0;31m#{file.path}\033[0m"
       end
     end
+  end
+
+  def path(_parse : OptionParser, _flags : CommandFlags, _args : CommandArgs)
+    puts Repository.path
   end
 end

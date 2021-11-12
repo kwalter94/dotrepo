@@ -32,6 +32,11 @@ module Dotrepo
       command = ->Commands.list(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
     end
 
+    parser.on("path", "Prints repository path") do
+      parser.banner = "USAGE: dotrepo path"
+      command = ->Commands.path(OptionParser, Commands::CommandFlags, Commands::CommandArgs)
+    end
+
     parser.on("-h", "--help", "Show this help") do
       puts(parser)
       exit(0)
