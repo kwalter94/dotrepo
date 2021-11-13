@@ -21,6 +21,10 @@ tracks all pending removals.
 
 [Unreleased]
 
+### Added
+
+- export --all command to allow exporting of files in repository
+
 ### Fixed
 
 - Non user friendly error message on export of non-existent dotfile
@@ -34,6 +38,3 @@ tracks all pending removals.
 - export command: exports files from repository to user directory
 - ls command: lists all files in repository
 - path command: prints repository path
-
-
-

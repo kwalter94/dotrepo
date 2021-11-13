@@ -22,6 +22,8 @@ module Dotrepo
 
     parser.on("export", "Export file from repository") do
       parser.banner = "USAGE: dotrepo export [OPTION] FILE [FILE...]"
+      parser.on("-a", "--all", "Export all files in repository") { flags["all"] = "" }
+      parser.on("--verbose", "Print all exported files") { flags["verbose"] = "" }
       parser.unknown_args { |paths| args.replace(paths) }
 
       command = ->Commands.export(OptionParser, Commands::CommandFlags, Commands::CommandArgs)

@@ -9,7 +9,7 @@ module Dotrepo::Commands
   extend self
 
   alias CommandArgs = Array(String)
-  alias CommandFlags = Hash(String, String | Bool)
+  alias CommandFlags = Hash(String, String)
   alias Command = OptionParser, CommandFlags, CommandArgs -> Nil
 
   def import(parser : OptionParser, _flags : CommandFlags, args : CommandArgs)
@@ -27,18 +27,20 @@ module Dotrepo::Commands
     end
   end
 
-  def export(parser : OptionParser, _flags : CommandFlags, args : CommandArgs)
-    if args.empty?
+  def export(parser : OptionParser, flags : CommandFlags, args : CommandArgs)
+    files = Repository.list.map(&.path) if flags.has_key?("all")
+
+    if files.nil? && args.empty?
       STDERR.puts("ERROR: You need to specify at least one file to import")
       STDERR.puts(parser)
       exit(1)
     end
 
-    args.each do |path|
-      FileExporter.export(path)
+    (files || args).each do |path|
+      destination_path = FileExporter.export(path)
+      puts "#{path} => #{destination_path}" if flags.has_key?("verbose")
     rescue e : Exceptions::Exception
-      STDERR.puts("Error: Failed to export file #{path}: #{e}")
-      exit(1)
+      STDERR.puts("Warning: Failed to export file #{path}: #{e}")
     end
   end
 
