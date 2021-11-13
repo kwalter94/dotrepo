@@ -21,6 +21,11 @@ tracks all pending removals.
 
 [Unreleased]
 
+### Fixed
+
+- Non user friendly error message on export of non-existent dotfile
+- Non user friendly error message on export to path that already exists
+
 ## [2021-11-12] - v1.0.0
 
 ### Added

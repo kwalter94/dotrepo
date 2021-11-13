@@ -38,5 +38,20 @@ describe Dotrepo::FileExporter do
       Dir.exists?(exported_path.dirname).should eq(true)
       Path[File.readlink(exported_path)].should eq(Path[dotfile_path])
     end
+
+    it "raises Exceptions::ExportFailed when specified file does not exist" do
+      expect_raises(Dotrepo::Exceptions::ExportFailed, /Dotfile .* does not exist/i) do
+        Dotrepo::FileExporter.export("/file-that-does-not-exist")
+      end
+    end
+
+    it "raises Exceptions::ExportFailed when export target already exists" do
+      expect_raises(Dotrepo::Exceptions::ExportFailed, /File exists/i) do
+        export_file = File.tempfile(dir: repository_path.to_s, &.print("Hello")).path
+        FileUtils.cp(export_file.to_s, Path.home.to_s)
+
+        Dotrepo::FileExporter.export(Path["/"].join(Path[export_file].basename))
+      end
+    end
   end
 end

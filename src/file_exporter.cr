@@ -9,6 +9,8 @@ require "path"
 module Dotrepo::FileExporter
   extend self
 
+  LOGGER = Log.for("Dotrepo::FileExporter")
+
   ##
   # Imports dotfile from the dotfiles repository.
   #
@@ -27,15 +29,15 @@ module Dotrepo::FileExporter
   # the dotfiles repository.
   def export(relative_dotfile_path : Path)
     dotfile_path = expand_dotfile_path(relative_dotfile_path)
-    unless File.exists?(dotfile_path)
-      raise Exceptions::ExportFailed.new("Dotfile #{relative_dotfile_path} does not exist")
-    end
+    raise Exceptions::ExportFailed.new("Dotfile #{relative_dotfile_path} does not exist") unless File.exists?(dotfile_path)
 
     export_path = dotfile_export_path(relative_dotfile_path)
     Dir.mkdir_p(export_path.dirname)
     FileUtils.ln_s(dotfile_path, export_path)
 
     export_path
+  rescue e : File::Error
+    raise Exceptions::ExportFailed.new(e.message, e)
   end
 
   def expand_dotfile_path(relative_dotfile_path : Path)
