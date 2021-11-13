@@ -4,7 +4,7 @@ require "option_parser"
 
 # TODO: Write documentation for `Dotrepo`
 module Dotrepo
-  VERSION = "1.0.0"
+  VERSION = {{ `shards version #{__DIR__}`.chomp.stringify }}
 
   command : Commands::Command | Nil = nil
   args = Commands::CommandArgs.new
@@ -41,6 +41,11 @@ module Dotrepo
 
     parser.on("-h", "--help", "Show this help") do
       puts(parser)
+      exit(0)
+    end
+
+    parser.on("-v", "--version", "Print version information") do
+      puts("#{Path[PROGRAM_NAME].basename} version #{VERSION}")
       exit(0)
     end
 

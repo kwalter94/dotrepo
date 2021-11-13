@@ -23,6 +23,7 @@ tracks all pending removals.
 
 ### Added
 
+- option for printing version information
 - export --all command to allow exporting of files in repository
 
 ### Fixed
