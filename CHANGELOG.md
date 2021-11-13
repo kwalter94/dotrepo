@@ -21,6 +21,8 @@ tracks all pending removals.
 
 [Unreleased]
 
+## [2021-11-13] - v1.1.0
+
 ### Added
 
 - option for printing version information
