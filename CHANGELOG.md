@@ -21,6 +21,10 @@ tracks all pending removals.
 
 [Unreleased]
 
+### Added
+
+- Fish completions file
+
 ## [2021-11-13] - v1.1.0
 
 ### Added
