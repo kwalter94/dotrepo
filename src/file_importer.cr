@@ -28,7 +28,7 @@ module Dotrepo::FileImporter
       FileUtils.mv(path, dotfile_path)
       FileUtils.ln_s(dotfile_path, path)
     rescue error : IO::Error
-      raise Exceptions::ImportFailed.new("Failed to import file: #{path}", error)
+      raise Exceptions::ImportFailed.new(error)
     end
   end
 

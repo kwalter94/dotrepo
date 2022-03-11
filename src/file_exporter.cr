@@ -36,8 +36,8 @@ module Dotrepo::FileExporter
     FileUtils.ln_s(dotfile_path, export_path)
 
     export_path
-  rescue e : File::Error
-    raise Exceptions::ExportFailed.new(e.message, e)
+  rescue error : File::Error
+    raise Exceptions::ExportFailed.new(error)
   end
 
   def expand_dotfile_path(relative_dotfile_path : Path)
