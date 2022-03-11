@@ -33,7 +33,7 @@ setup. Otherwise, ensure that no failures are reported. To build the application
 run the following command in the same directory:
 
   ```sh
-  crystal build src/dotrepo.cr
+  crystal build src/dotrepo.cr --release
   ```
 
 This produces a `dotrepo` binary in the your current working directory. You should move

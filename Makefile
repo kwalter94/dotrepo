@@ -5,7 +5,7 @@ install-fish-completions:
 	cp share/dotrepo.fish ~/.config/fish/completions/dotrepo.fish
 	
 build: test
-	crystal build src/dotrepo.cr
+	crystal build src/dotrepo.cr --release
 	
 test:
 	crystal spec
