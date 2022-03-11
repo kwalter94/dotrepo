@@ -61,5 +61,26 @@ describe Dotrepo::FileImporter do
         Dotrepo::FileImporter.import(tempfile.path)
       end
     end
+
+    it "imports entire directory trees" do
+      dirname = ".config"
+      import_dir = Dotrepo::Repository.path.join(dirname)
+
+      files = (1..10).map do |i|
+        {i, create_testfile(relative_dir: dirname, &.print("Hello x#{i}"))}
+      end
+
+      Dotrepo::FileImporter.import(dirname)
+
+      File.symlink?(dirname).should be_true
+      File.directory?(dirname).should be_true
+      File.readlink(dirname).should eq(import_dir.to_s)
+
+      files.each do |file|
+        file_no, filename = file
+        filename = File.basename(filename)
+        File.read(import_dir.join(filename)).should eq("Hello x#{file_no}")
+      end
+    end
   end
 end

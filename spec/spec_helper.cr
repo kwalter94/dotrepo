@@ -4,6 +4,8 @@ require "../src/repository"
 require "dir"
 require "file"
 
+ENV.delete("DOTFILES_REPOSITORY")
+
 struct Path
   # Used by Dotrepo::Repository.path
   def self.home
