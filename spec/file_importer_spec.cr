@@ -74,7 +74,7 @@ describe Dotrepo::FileImporter do
       end
 
       Dotrepo::FileImporter.import("#{dirname}/")
-      
+
       # Trimming out the trailing / because when linux sees it after a symlink,
       # the path is treated as a directory not a symlink
       File.readlink(dirname).should eq(import_dir.to_s)
