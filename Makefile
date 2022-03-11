@@ -6,6 +6,10 @@ install-fish-completions:
 	
 build: test
 	crystal build src/dotrepo.cr --release
-	
-test:
+
+test: lint
 	crystal spec
+
+lint:
+	crystal tool format --check
+	
