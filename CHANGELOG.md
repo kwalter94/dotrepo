@@ -21,9 +21,12 @@ tracks all pending removals.
 
 [Unreleased]
 
+## [2022-03-11] - v1.1.1
+
 ### Added
 
 - Fish completions file
+- Fix crash on import of paths with trailing slashes
 
 ## [2021-11-13] - v1.1.0
 
