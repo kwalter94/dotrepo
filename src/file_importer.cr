@@ -12,6 +12,7 @@ module Dotrepo::FileImporter
   extend self
 
   def import(path : String)
+    path = path.gsub(/\/+$/, "")
     import(Path[path])
   end
 

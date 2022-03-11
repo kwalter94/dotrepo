@@ -62,7 +62,10 @@ describe Dotrepo::FileImporter do
       end
     end
 
-    it "imports entire directory trees" do
+    # Had some wicked bug that would cause imports on directories to
+    # fail if import was called with a directory path that had a
+    # a trailing /
+    it "imports directory trees with trailing slashes in their name" do
       dirname = ".config"
       import_dir = Dotrepo::Repository.path.join(dirname)
 
@@ -70,11 +73,12 @@ describe Dotrepo::FileImporter do
         {i, create_testfile(relative_dir: dirname, &.print("Hello x#{i}"))}
       end
 
-      Dotrepo::FileImporter.import(dirname)
-
-      File.symlink?(dirname).should be_true
-      File.directory?(dirname).should be_true
+      Dotrepo::FileImporter.import("#{dirname}/")
+      
+      # Trimming out the trailing / because when linux sees it after a symlink,
+      # the path is treated as a directory not a symlink
       File.readlink(dirname).should eq(import_dir.to_s)
+      File.directory?(import_dir).should be_true
 
       files.each do |file|
         file_no, filename = file
