@@ -22,15 +22,46 @@ module Dotrepo::Repository
   end
 
   def list : Array(Dotfile)
-    Utils.dir_deep_ls(path).map do |dotfile_path|
+    dotfiles = Utils.dir_deep_ls(path).map do |dotfile_path|
       relative_dotfile_path = Path["/"].join(dotfile_path.expand.relative_to(path))
+      next nil if ignore_dotfile?(relative_dotfile_path)
+
       Dotfile.new(relative_dotfile_path)
     end
+
+    dotfiles.compact
   end
 
   def path
     return Path[ENV["DOTFILES_REPOSITORY"]] if ENV.has_key?("DOTFILES_REPOSITORY")
 
     Path.home.join(".dotfiles")
+  end
+
+  def ignore_dotfile?(relative_path : Path)
+    matching_pattern = ignored_file_patterns.find do |pattern|
+      if pattern.starts_with?('/')
+        relative_path.parts[1] == pattern[1..]
+      else
+        relative_path.parts.find { |part| part == pattern }
+      end
+    end
+
+    matching_pattern != nil
+  end
+
+  def ignored_file_patterns
+    dotignore_file = path.join("dotrepo-ignore")
+    return [] of String unless File.exists?(dotignore_file)
+
+    patterns = File.read_lines(dotignore_file).map do |line|
+      line = line.strip
+      next nil if line.empty? || line.starts_with?('#')
+
+      line
+    end
+
+    patterns << "/dotrepo-ignore"
+    patterns.compact
   end
 end

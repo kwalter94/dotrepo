@@ -6,6 +6,16 @@ require "file"
 require "file_utils"
 require "path"
 
+# Creates a file in repository
+def make_repo_file(filename)
+  path = repository_path.join(filename)
+  dir_path = Path[path].dirname
+  FileUtils.mkdir_p(dir_path)
+
+  File.open(path, "w") { |file| file.puts(yield) }
+  path
+end
+
 describe Dotrepo::Repository do
   before_each { Dir.mkdir(Dotrepo::Repository.path) }
 
@@ -53,6 +63,30 @@ describe Dotrepo::Repository do
       listed_files.size.should eq(1)
       listed_files.first.full_path.should eq(Path[tempfile.path])
       listed_files.first.exported?.should be_false
+    end
+
+    it "does not list any files in dotrepo-ignore file" do
+      ignorefile = repository_path.join("dotrepo-ignore")
+      File.open(ignorefile, "w") do |file|
+        file.puts <<-DOTREPO_IGNORE
+        # Leading slashes matches at root of repository
+        /foo
+        /bar
+        # If no leading slash then match any file in repository
+        foobar
+        DOTREPO_IGNORE
+      end
+
+      ignored_files = ["foo", "bar", "sub-dir/foobar"].map do |path|
+        make_repo_file(path) { "Hello" }
+      end
+      ignored_files << ignorefile
+
+      ignored_files_found = Dotrepo::Repository.list.find do |dotfile|
+        ignored_files.find { |ignored_file| ignored_file == dotfile.full_path }
+      end
+
+      ignored_files_found.should be_nil
     end
   end
 end
