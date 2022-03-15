@@ -21,6 +21,12 @@ tracks all pending removals.
 
 [Unreleased]
 
+## [2022-03-15] - v1.2.0
+
+### Added
+
+- dotrepo-ignore for ignoring files matching a given pattern in ls output [#6](https://github.com/kwalter94/dotrepo/issues/6)
+
 ## [2022-03-11] - v1.1.1
 
 ### Added

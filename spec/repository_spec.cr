@@ -16,7 +16,6 @@ def make_repo_file(filename)
   path
 end
 
-
 describe Dotrepo::Repository do
   before_each { Dir.mkdir(Dotrepo::Repository.path) }
 
