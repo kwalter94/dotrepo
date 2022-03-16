@@ -22,6 +22,7 @@ jobs:
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
           prerelease: true
+          automatic_release_tag: unstable
           title: "Development build"
           files: |
             LICENSE
