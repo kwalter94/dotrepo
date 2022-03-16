@@ -3,13 +3,16 @@ require "../src/repository"
 
 require "dir"
 require "file"
+require "uuid"
 
 ENV.delete("DOTFILES_REPOSITORY")
+
+TEST_RUN_ID = UUID.random.hexstring
 
 struct Path
   # Used by Dotrepo::Repository.path
   def self.home
-    Path[Dir.tempdir].join("dotfiles")
+    Path[Dir.tempdir].join("dotfiles-#{TEST_RUN_ID}")
   end
 end
 
@@ -42,11 +45,12 @@ def create_testfile(relative_dir = nil)
 end
 
 def expand_relative_dir(relative_dir)
-  return "dotfiles/" unless relative_dir
+  dir = relative_dir ? Path.home.join(relative_dir) : Path.home
+  Dir.mkdir_p(dir) unless Dir.exists?(dir)
 
-  Dir.mkdir_p(relative_dir) unless Dir.exists?(relative_dir)
-
-  "dotfiles/#{relative_dir}/"
+  "#{dir}/"
+    .gsub(Path.home.dirname.to_s, "")
+    .gsub(/^\/+/, "")
 end
 
 Spec.before_each do
