@@ -9,13 +9,18 @@ jobs:
     steps:
       - name: Download Source
         uses: actions/checkout@v2
+      - name: Run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: crystallang/crystal:latest-alpine
+          options: --rm -v ${{ github.workspace }}:/workspace -w /workspace
+          run: crystal spec --order=random --error-on-warnings
       - name: Build Static Binary
         uses: addnab/docker-run-action@v3
         with:
           image: crystallang/crystal:latest-alpine
-          options: --rm -v ${{ github.workspace }}:/workspace
+          options: --rm -v ${{ github.workspace }}:/workspace -w /workspace
           run: |
-            crystal spec --order=random --error-on-warnings
             crystal build --mcpu x86-64 --static --release src/dotrepo.cr
             mv dotrepo dotrepo-linux-amd64
       - name: Create release
