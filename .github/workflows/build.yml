@@ -23,6 +23,6 @@ jobs:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
           prerelease: false
           files: |
+            dotrepo-linux-amd64
             LICENSE
-            dotrepo
 
