@@ -14,7 +14,6 @@ jobs:
         with:
           image: crystallang/crystal:latest-alpine
           options: --rm -v ${{ github.workspace }}:/workspace
-          shell: bash
           run: |
             crystal spec --order=random
             crystal build --mcpu x86-64 --static --release src/dotrepo.cr

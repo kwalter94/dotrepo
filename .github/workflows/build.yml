@@ -13,7 +13,6 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: crystallang/crystal:latest-alpine
-          shell: bash
           options: --rm -v ${{ github.workspace }}:/workspace
           run: |
             crystal spec --order=random --error-on-warnings
