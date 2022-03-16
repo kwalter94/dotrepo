@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,12 +11,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Build Development Binary
         uses: addnab/docker-run-action@v3
-        image: crystallang/crystal:alpine-static
-        options: --rm -it -v $(pwd):/workspace
-        run: |
-          crystal spec --order=random
-          crystal build --mcpu x86-64 --static --release src/dotrepo.cr
-          mv dotrepo dotrepo-linux-amd64
+        with:
+          image: crystallang/crystal:alpine-static
+          options: --rm -it -v $(pwd):/workspace
+          run: |
+            crystal spec --order=random
+            crystal build --mcpu x86-64 --static --release src/dotrepo.cr
+            mv dotrepo dotrepo-linux-amd64
       - name: Create release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
