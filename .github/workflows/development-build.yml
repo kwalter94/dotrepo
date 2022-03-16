@@ -21,7 +21,7 @@ jobs:
           image: crystallang/crystal:latest-alpine
           options: --rm -v ${{ github.workspace }}:/workspace -w /workspace
           run: |
-            crystal build --mcpu x86-64 --static --release ${{ github.workspace }}/src/dotrepo.cr
+            crystal build --mcpu x86-64 --static --release src/dotrepo.cr
             mv dotrepo dotrepo-linux-amd64
       - name: Create release
         uses: "marvinpinto/action-automatic-releases@latest"
