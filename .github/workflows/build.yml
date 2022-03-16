@@ -1,0 +1,29 @@
+name: 'Stable build'
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Source
+        uses: actions/checkout@v2
+      - name: Build Static Binary
+        uses: addnab/docker-run-action@v3
+        image: crystallang/crystal:alpine-static
+        options: --rm -it -v $(pwd):/workspace
+        run: |
+          crystal spec --order=random --error-on-warnings
+          crystal build --mcpu x86-64 --static --release src/dotrepo.cr
+          mv dotrepo dotrepo-linux-amd64
+      - name: Create release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.RELEASE_TOKEN }}"
+          prerelease: false
+          files: |
+            LICENSE
+            dotrepo
+
