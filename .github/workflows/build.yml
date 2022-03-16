@@ -12,7 +12,7 @@ jobs:
       - name: Build Static Binary
         uses: addnab/docker-run-action@v3
         with:
-          image: crystallang/crystal:alpine-static
+          image: crystallang/crystal:latest-alpine
           options: --rm -v $(pwd):/workspace
           run: |
             crystal spec --order=random --error-on-warnings
