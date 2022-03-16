@@ -9,12 +9,6 @@ jobs:
     steps:
       - name: Download Source
         uses: actions/checkout@v2
-      - name: Run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: crystallang/crystal:latest-alpine
-          options: --rm -v ${{ github.workspace }}:/workspace -w /workspace
-          run: crystal spec --order=random
       - name: Build Development Binary
         uses: addnab/docker-run-action@v3
         with:
