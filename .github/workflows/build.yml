@@ -13,7 +13,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: crystallang/crystal:alpine-static
-          options: --rm -it -v $(pwd):/workspace
+          options: --rm -v $(pwd):/workspace
           run: |
             crystal spec --order=random --error-on-warnings
             crystal build --mcpu x86-64 --static --release src/dotrepo.cr
